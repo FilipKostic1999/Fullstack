@@ -1,4 +1,4 @@
-fetch("https://ditt-backend.onrender.com/items")
+fetch("https://fullstack-khad.onrender.com/items")
   .then(res => res.json())
   .then(data => {
     const list = document.getElementById("list");
