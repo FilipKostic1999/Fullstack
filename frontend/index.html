@@ -2,11 +2,92 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <title>Fullstack App</title>
+  <title>Fullstack Fruktlista</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      color: #2e7d32;
+      margin-bottom: 1rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    li {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: center;
+      width: 150px;
+      transition: transform 0.2s ease;
+    }
+    li:hover {
+      transform: scale(1.05);
+    }
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+    }
+    footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <h1>Fruktlista</h1>
+  <h1>Fruktlista 🍎🍌🍒</h1>
   <ul id="list"></ul>
-  <script src="script.js"></script>
+  <footer>Data hämtas från Render-backend</footer>
+
+  <script>
+    // Backend URL (replace with your actual backend if needed)
+    const backendUrl = "https://fullstack-khad.onrender.com/items";
+
+    // Simple image map
+    const fruitImages = {
+      Apple: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg",
+      Banana: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg",
+      Cherry: "https://upload.wikimedia.org/wikipedia/commons/b/bb/Cherry_Stella444.jpg"
+    };
+
+    fetch(backendUrl)
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("list");
+        data.forEach(item => {
+          const li = document.createElement("li");
+          const img = document.createElement("img");
+          img.src = fruitImages[item.name] || "https://via.placeholder.com/100";
+          li.appendChild(img);
+          const name = document.createElement("div");
+          name.textContent = item.name;
+          li.appendChild(name);
+          list.appendChild(li);
+        });
+      })
+      .catch(err => {
+        console.error("Error fetching fruits:", err);
+      });
+  </script>
 </body>
 </html>
